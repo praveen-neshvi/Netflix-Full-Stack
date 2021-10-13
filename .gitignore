@@ -1,0 +1,5 @@
+/API/node_modules
+/Netflix-Clone/node_modules
+/API/.env
+API/package-lock.json
+/Netflix-Clone/package-lock.json
