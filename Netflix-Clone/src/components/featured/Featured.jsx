@@ -1,8 +1,27 @@
 import { InfoOutlined, PlayArrow } from '@material-ui/icons';
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
 import './featured.scss';
 
 export default function Featured({type}) {
+    const [content, setContent] = useState({});
+
+    useEffect(()=> {
+        const getRandomContent = async()=>{
+            try{
+                const res = await axios.get(`/movies/random?type=${type}`,{
+                    headers: {
+                        token: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNWY0NGJmOWY4YjRkOTE5NDMyZTc5NSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTYzNDI3NTc4MSwiZXhwIjoxNjM0NzA3NzgxfQ.Vvyyyc_l_wavhGduBgqKLmfqsoJnzAcbYAY79iwJkwU"
+                          },
+                })
+                setContent(res.data[0]);
+            } catch(err) {
+                console.log(err)
+            }
+        }
+        getRandomContent();
+    },[type])
+    console.log(content);
     return (
         <div className="featured">
             {type && (
@@ -26,15 +45,13 @@ export default function Featured({type}) {
                     </select>
                 </div>
             )}
-            <img src="https://img3.goodfon.com/wallpaper/nbig/3/21/amerikanskiy-psihopat-5728.jpg" alt="" />
+            <img src={content.img} alt="" />
             <div className="info">
-                <img src="https://fanart.tv/fanart/movies/1359/movielogo/american-psycho-5030bf7d590df.png " alt="" />
+                <img src={content.imgTitle} alt="" />
                 
                 <span className="desc">
-                In New York City in 1987, a handsome, young urban professional, Patrick Bateman 
-                , lives a second life as a gruesome serial killer by night. 
-                This is a biting, wry comedy examining the elements that make a man a monster.
-                </span>
+                {content.desc}
+                 </span>
 
                 <div className="buttons">
                     <div className="play">

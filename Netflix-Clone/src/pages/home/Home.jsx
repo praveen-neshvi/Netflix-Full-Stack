@@ -16,7 +16,7 @@ const Home = ({type}) => {
                   `lists${type ? "?type=" + type : ""}${genre ? "&genre="+ genre : ""}`, 
                   {
                       headers: {
-                      token: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNWY0NGJmOWY4YjRkOTE5NDMyZTc5NSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTYzNDIyMTIwOSwiZXhwIjoxNjM0NjUzMjA5fQ.DcSSX57zkBPZU2NQqaYpBz9zEIS3zzVdrIaa-k9dlWo"
+                      token: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNWY0NGJmOWY4YjRkOTE5NDMyZTc5NSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTYzNDI3NTc4MSwiZXhwIjoxNjM0NzA3NzgxfQ.Vvyyyc_l_wavhGduBgqKLmfqsoJnzAcbYAY79iwJkwU"
                         },
                 }
                     );

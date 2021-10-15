@@ -1,32 +1,42 @@
 import { Add, PlayArrow, ThumbDownOutlined, ThumbUpAltOutlined } from '@material-ui/icons'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Video from "./vid.mp4";
 import './listitem.scss'
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 
-export default function ListItem({index}) {
+export default function ListItem({index, item}) {
 
     const [isHovered, setIsHovered] = useState(false);
-    //const trailer = "https://www.youtube.com/watch?v=Hyag7lR8CPA";
-    // const opts = {
-    //     height: '350',
-    //     width: '100%' ,
-    //     playerVars: {
-    //       // https://developers.google.com/youtube/player_parameters
-    //       autoplay: 1,
-    //     },
-    //   };
-  
+    const [movie, setMovie] = useState({});
+ 
+    useEffect( ()=> {
+        const getMovie = async () => {
+            try{
+                const res = await axios.get("/movies/find/"+item, {
+                    headers: {
+                        token: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNWY0NGJmOWY4YjRkOTE5NDMyZTc5NSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTYzNDI3NTc4MSwiZXhwIjoxNjM0NzA3NzgxfQ.Vvyyyc_l_wavhGduBgqKLmfqsoJnzAcbYAY79iwJkwU"
+                          },
+                });
+                setMovie(res.data);
+            }catch(err){
+                console.log(err)
+            }
+        };
+        getMovie()
+    },[item]);
     return (
+        <Link to={{pathname : "/watch", movie: movie}}>
         <div className="listItem" 
         style={{left: isHovered && index * 225 - 50 + index * 2.5}}
         onMouseEnter={()=>setIsHovered(true)} 
         onMouseLeave={()=>setIsHovered(false)}>
-            <img src="https://musicfriendz.files.wordpress.com/2020/01/the-lighthouse-2019-banner.jpg?w=1200"
+            <img src={movie.img}
              alt="" />
             {isHovered && (
             <>
-            <video autostart={true} autoPlay={true} src={Video} type="video/mp4" />
+            <video autostart={true} autoPlay={true} src={movie.trailer} type="video/mp4" />
            
         <div className="itemInfo">
             <div className="icons">
@@ -36,20 +46,19 @@ export default function ListItem({index}) {
                <ThumbDownOutlined className="icon"/>
             </div>
             <div className="itemInfoTop">
-                <span>1 hour 14 mins</span>
-                <span  className="limit">16+</span>
-                <span>2019</span>
+                <span>{movie.duration}</span>
+                <span  className="limit">+{movie.limit}</span>
+                <span>{movie.year}</span>
             </div>
             <div className="desc">
-            In a remote island, Ephraim Winslow arrives as a lighthouse keeper 
-            and assists his elderly supervisor, Thomas Wake. 
+            {movie.desc}
             </div>
             <div className="genre">
-                Horror/Mystery
+                {movie.genre}
             </div>
         </div></>
         )}
         </div>
-        
+        </Link>
     )
 }
