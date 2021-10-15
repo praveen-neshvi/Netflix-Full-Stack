@@ -20,6 +20,14 @@ const AuthReducer = (state,action) => {
             isFecting:false,
             error: true,
         };
+
+
+        case "LOGOUT" : 
+        return{
+            user:null,
+            isFecting:false,
+            error: false,
+        };
         default:
             return {...state};
     }
