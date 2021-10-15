@@ -10,23 +10,29 @@ import ProductList from "./pages/productList/ProductList";
 import Product from "./pages/product/Product";
 import NewProduct from "./pages/newProduct/NewProduct";
 import Login from "./pages/login/login"
+import {AuthContext} from "./components/context/authContext/AuthContext";
+import {useContext} from 'react';
+import { Redirect } from "react-router";
 
 function App() {
   
-
+  const {user} = useContext(AuthContext); 
  
   return (
     <Router>
+        <Switch>
+        <Route path="/login">
+        { user ? <Redirect to="/" /> : <Login /> } 
+          </Route>
+        {user &&  
+        <>
       <Topbar />
       <div className="container">
         <Sidebar />
-        <Switch>
           <Route exact path="/">
             <Home />
           </Route>
-          <Route path="/login">
-            <Login />
-          </Route>
+         
           <Route path="/users">
             <UserList />
           </Route>
@@ -45,8 +51,9 @@ function App() {
           <Route path="/newproduct">
             <NewProduct />
           </Route>
-        </Switch>
       </div>
+      </>}
+        </Switch>
     </Router>
   );
 }
